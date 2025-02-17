@@ -1,4 +1,4 @@
-import 'package:chillmoney/welcome_screen.dart';
+import 'package:chillmoney/welcom/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
