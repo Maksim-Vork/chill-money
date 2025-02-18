@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Color.fromARGB(255, 51, 51, 51),
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -126,7 +127,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             builder: (context) => RegisterScreen()));
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 55, vertical: 17),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 17),
                     child: Text(
                       'Зарегистрироваться',
                       style: TextStyle(fontSize: 20),
