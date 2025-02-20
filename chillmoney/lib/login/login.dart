@@ -1,4 +1,4 @@
-import 'package:chillmoney/main_wrapper.dart';
+import 'package:chillmoney/screens/home/main_wrapper.dart';
 import 'package:chillmoney/register/register.dart';
 import 'package:chillmoney/welcom/welcome_screen.dart';
 import 'package:flutter/material.dart';

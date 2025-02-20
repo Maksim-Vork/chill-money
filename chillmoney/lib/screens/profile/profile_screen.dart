@@ -1,3 +1,4 @@
+import 'package:chillmoney/screens/profile/settings.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -8,6 +9,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final ServiceSettings settingsService = ServiceSettings();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,16 +92,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 600,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 67, 67, 67),
                           borderRadius: BorderRadius.circular(15)),
-                    )
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Настройки',
+                                    style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 157, 157, 157)),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      settingsService.settingsList.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return SettingModule(
+                                        settings: settingsService
+                                            .settingsList[index]);
+                                  }),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingModule extends StatelessWidget {
+  final Settings settings;
+  const SettingModule({super.key, required this.settings});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: GestureDetector(
+        onTap: () {},
+        child: Row(
+          children: [
+            Icon(
+              settings.icon,
+              color: const Color.fromARGB(255, 189, 189, 189),
+              size: 30,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              settings.name,
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ],
         ),
       ),
     );

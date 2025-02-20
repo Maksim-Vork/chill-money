@@ -1,4 +1,4 @@
-import 'package:chillmoney/transactions.dart';
+import 'package:chillmoney/screens/home/transactions.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
