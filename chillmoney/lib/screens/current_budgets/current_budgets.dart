@@ -1,4 +1,5 @@
 import 'package:chillmoney/screens/current_budgets/budgets.dart';
+import 'package:chillmoney/screens/current_budgets/createBudget.dart';
 import 'package:flutter/material.dart';
 
 class CurrentBudgets extends StatefulWidget {
@@ -58,10 +59,17 @@ class _CurrentBudgetsState extends State<CurrentBudgets> {
                   itemCount: budgetsService.budgetsList.length,
                   itemBuilder: (context, index) {
                     return BudgetModule(
-                        budgets: budgetsService.budgetsList[index]);
+                      budgets: budgetsService.budgetsList[index],
+                      budgetsService: budgetsService,
+                    );
                   }),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateBudget()));
+                  },
                   child: Text(
                     'Добавить бютжет',
                     style: TextStyle(
@@ -78,7 +86,9 @@ class _CurrentBudgetsState extends State<CurrentBudgets> {
 
 class BudgetModule extends StatefulWidget {
   final Budgets budgets;
-  const BudgetModule({super.key, required this.budgets});
+  final BudgetsService budgetsService;
+  const BudgetModule(
+      {super.key, required this.budgets, required this.budgetsService});
 
   @override
   State<BudgetModule> createState() => _BudgetModuleState();
@@ -90,7 +100,7 @@ class _BudgetModuleState extends State<BudgetModule> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        height: 250,
+        height: 290,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Color.fromARGB(255, 67, 67, 67),
@@ -111,35 +121,54 @@ class _BudgetModuleState extends State<BudgetModule> {
                         fontWeight: FontWeight.w300),
                   ),
                   IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.delete,
-                        color: const Color.fromARGB(255, 192, 192, 192),
-                      ))
+                    onPressed: () {},
+                    icon: Icon(Icons.delete, color: Colors.grey),
+                  )
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CustomPaint(),
-                      Text(
-                        widget.budgets.remainder.toString(),
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 67, 255, 111),
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
+                      SizedBox(height: 60),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CustomPaint(
+                            size: Size(200, 100),
+                            painter: BudgetPainter(
+                              spent: widget.budgets.spent.toDouble(),
+                              total: widget.budgets.totalAmount.toDouble(),
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                widget.budgets.remainder.toString(),
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 67, 255, 111),
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'Остаток',
+                                style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Остаток',
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 192, 192, 192),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      )
                     ],
-                  )
+                  ),
                 ],
               ),
               Row(
@@ -192,11 +221,62 @@ class _BudgetModuleState extends State<BudgetModule> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class BudgetPainter extends CustomPainter {
+  final double spent;
+  final double total;
+
+  BudgetPainter({required this.spent, required this.total});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paintBackground = Paint()
+      ..color = Colors.grey
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10
+      ..strokeCap = StrokeCap.round;
+
+    final paintProgress = Paint()
+      ..color = Color.fromARGB(255, 67, 255, 111)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawArc(
+      Rect.fromCircle(
+        center: Offset(size.width / 2, size.height / 2),
+        radius: size.width / 2,
+      ),
+      3.14,
+      3.14,
+      false,
+      paintBackground,
+    );
+
+    double progressAngle = (1 - (spent / total)) * 3.14;
+
+    canvas.drawArc(
+      Rect.fromCircle(
+        center: Offset(size.width / 2, size.height / 2),
+        radius: size.width / 2,
+      ),
+      3.14,
+      progressAngle,
+      false,
+      paintProgress,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

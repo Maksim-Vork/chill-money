@@ -43,17 +43,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
           child: Column(
             children: [
               Center(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 25,
-                    ),
                     Container(
                       height: 70,
                       width: 70,

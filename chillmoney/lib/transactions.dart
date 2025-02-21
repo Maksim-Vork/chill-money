@@ -2,8 +2,12 @@ class Transactions {
   final String name;
   final int sum;
   final bool transaction;
-  Transactions(
-      {required this.name, required this.sum, required this.transaction});
+  final DateTime data;
+  Transactions({
+    required this.name,
+    required this.sum,
+    required this.transaction,
+  }) : data = DateTime.now();
 }
 
 class TransactionsService {

@@ -1,4 +1,4 @@
-import 'package:chillmoney/screens/home/transactions.dart';
+import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -65,14 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
                 Container(
                   height: 123,
                   width: double.infinity,

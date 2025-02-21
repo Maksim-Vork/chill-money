@@ -1,12 +1,14 @@
 class Budgets {
   final String name;
   final int totalAmount;
+  final String id;
 
   int _spent = 0;
+
   Budgets({
     required this.name,
     required this.totalAmount,
-  });
+  }) : id = DateTime.now().millisecondsSinceEpoch.toString();
 
   int get remainder => totalAmount - _spent;
   int get spent => _spent;
@@ -14,8 +16,6 @@ class Budgets {
   void spend(int amount) {
     if (amount > 0 && amount <= remainder) {
       _spent += amount;
-    } else {
-      throw Exception("Не достаточно средств");
     }
   }
 }
@@ -32,7 +32,5 @@ class BudgetsService {
     _budgetsList.add(Budgets(name: name, totalAmount: totalAmount));
   }
 
-  void deleteBudget(int index) {
-    _budgetsList.remove(index);
-  }
+  void deleteBudget(String id) {}
 }
