@@ -32,24 +32,25 @@ class _MainWrapperState extends State<MainWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color.fromARGB(255, 81, 81, 81),
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Color.fromARGB(255, 179, 179, 179),
-          iconSize: 30,
-          onTap: _onItemTapped,
-          currentIndex: _selectedIndex,
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance_wallet), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.savings), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-          ],
-        ));
+      body: screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 81, 81, 81),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: const Color.fromARGB(255, 179, 179, 179),
+        iconSize: 30,
+        onTap: _onItemTapped,
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.savings), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+        ],
+      ),
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:chillmoney/screens/add_operation.dart';
 import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,58 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TransactionsService transactionsService = TransactionsService();
+  final PageController _pageController = PageController();
+  int _currentPage = 1;
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
+  void _onPageChandedLeft() {
+    if (_currentPage > 0) {
+      setState(() {
+        _currentPage--;
+        _pageController.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      });
+    }
+  }
+
+  void _onPageChandedRight() {
+    if (_currentPage < 1) {
+      setState(() {
+        _currentPage++;
+        _pageController.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: SizedBox(
+          height: 65,
+          width: 65,
+          child: FloatingActionButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            backgroundColor: Color.fromARGB(255, 67, 255, 111),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddOperation()));
+            },
+            child: Icon(Icons.add),
+          ),
+        ),
         backgroundColor: Color.fromARGB(255, 51, 51, 51),
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -168,92 +218,179 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
+                        SizedBox(
+                          height: 140,
+                          child: PageView(
+                            onPageChanged: _onPageChanged,
+                            controller: _pageController,
+                            children: [
+                              Row(
                                 children: [
-                                  Text(
-                                    'Потрачено',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    child: Container(
-                                      height: 80,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Потрачено',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Container(
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                          ),
+                                        ),
+                                        Text(
+                                          '1000',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 111, 67),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    '1000',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 111, 67),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Заработано',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Container(
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                          ),
+                                        ),
+                                        Text(
+                                          '4000',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 67, 255, 111),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
-                            ),
-                            Expanded(
-                              child: Column(
+                              Row(
                                 children: [
-                                  Text(
-                                    'Заработано',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    child: Container(
-                                      height: 80,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Потрачено',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Container(
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                          ),
+                                        ),
+                                        Text(
+                                          '2000',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 111, 67),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    '4000',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 67, 255, 111),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Заработано',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Container(
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                          ),
+                                        ),
+                                        Text(
+                                          '8000',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 67, 255, 111),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _onPageChandedLeft();
+                                },
                                 icon: Icon(
                                   Icons.arrow_back_ios,
                                   color: Colors.white,
                                 )),
                             Text(
-                              'В этом месяце',
+                              _currentPage == 1
+                                  ? 'В этом месяце'
+                                  : 'В прошлом месяце',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
                             ),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _onPageChandedRight();
+                                },
                                 icon: Icon(Icons.arrow_forward_ios,
                                     color: Colors.white))
                           ],
