@@ -11,6 +11,11 @@ class CurrentBudgets extends StatefulWidget {
 
 class _CurrentBudgetsState extends State<CurrentBudgets> {
   final BudgetsService budgetsService = BudgetsService();
+  void _deleteBudgetById(String id) {
+    budgetsService.deleteBudgetById(id);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +64,7 @@ class _CurrentBudgetsState extends State<CurrentBudgets> {
                   itemCount: budgetsService.budgetsList.length,
                   itemBuilder: (context, index) {
                     return BudgetModule(
+                      onDeleted: _deleteBudgetById,
                       budgets: budgetsService.budgetsList[index],
                       budgetsService: budgetsService,
                     );
@@ -68,7 +74,11 @@ class _CurrentBudgetsState extends State<CurrentBudgets> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CreateBudget()));
+                            builder: (context) => CreateBudget(
+                                  budgetsService: budgetsService,
+                                ))).then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Text(
                     'Добавить бютжет',
@@ -87,8 +97,12 @@ class _CurrentBudgetsState extends State<CurrentBudgets> {
 class BudgetModule extends StatefulWidget {
   final Budgets budgets;
   final BudgetsService budgetsService;
+  final Function(String) onDeleted;
   const BudgetModule(
-      {super.key, required this.budgets, required this.budgetsService});
+      {super.key,
+      required this.budgets,
+      required this.budgetsService,
+      required this.onDeleted});
 
   @override
   State<BudgetModule> createState() => _BudgetModuleState();
@@ -121,7 +135,9 @@ class _BudgetModuleState extends State<BudgetModule> {
                         fontWeight: FontWeight.w300),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.onDeleted(widget.budgets.id);
+                    },
                     icon: Icon(Icons.delete, color: Colors.grey),
                   )
                 ],

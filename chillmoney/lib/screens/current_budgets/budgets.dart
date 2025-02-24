@@ -23,7 +23,6 @@ class Budgets {
 class BudgetsService {
   final List<Budgets> _budgetsList = [
     Budgets(name: 'Развлечения', totalAmount: 1000),
-    Budgets(name: 'Продукты', totalAmount: 500),
   ];
 
   List<Budgets> get budgetsList => _budgetsList;
@@ -32,5 +31,12 @@ class BudgetsService {
     _budgetsList.add(Budgets(name: name, totalAmount: totalAmount));
   }
 
-  void deleteBudget(String id) {}
+  void deleteBudgetById(String id) {
+    for (int i = 0; i < _budgetsList.length; i++) {
+      if (_budgetsList[i].id == id) {
+        _budgetsList.removeAt(i);
+        break;
+      }
+    }
+  }
 }

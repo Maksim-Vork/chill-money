@@ -1,4 +1,6 @@
 import 'package:chillmoney/screens/add_operation.dart';
+import 'package:chillmoney/screens/home/painter/painter.dart';
+import 'package:chillmoney/screens/home/painter/painterLastMonth.dart';
 import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
@@ -239,14 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 10),
-                                          child: Container(
-                                            height: 80,
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                          ),
+                                          child: CustomPainterSpendLast(),
                                         ),
                                         Text(
                                           '1000',
@@ -270,17 +265,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.w300),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Container(
-                                            height: 80,
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                          ),
-                                        ),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: CustomPainterEerdedLast()),
                                         Text(
                                           '4000',
                                           style: TextStyle(
@@ -307,17 +294,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.w300),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Container(
-                                            height: 80,
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                          ),
-                                        ),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: CustomPainterSpend()),
                                         Text(
                                           '2000',
                                           style: TextStyle(
@@ -342,14 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 10),
-                                          child: Container(
-                                            height: 80,
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                          ),
+                                          child: CustomPainterEerded(),
                                         ),
                                         Text(
                                           '8000',

@@ -1,7 +1,9 @@
+import 'package:chillmoney/screens/current_budgets/budgets.dart';
 import 'package:flutter/material.dart';
 
 class CreateBudget extends StatefulWidget {
-  const CreateBudget({super.key});
+  final BudgetsService budgetsService;
+  const CreateBudget({super.key, required this.budgetsService});
 
   @override
   State<CreateBudget> createState() => _CreateBudgetState();
@@ -36,6 +38,10 @@ class _CreateBudgetState extends State<CreateBudget> {
 
   void _fromValidator() {
     _formKey.currentState?.validate();
+
+    widget.budgetsService
+        .addBudget(int.parse(_controllerSum.text), _controllerNameBudgets.text);
+    Navigator.pop(context);
   }
 
   @override
