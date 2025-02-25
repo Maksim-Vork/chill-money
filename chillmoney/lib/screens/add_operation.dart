@@ -1,14 +1,17 @@
+import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
 class AddOperation extends StatefulWidget {
-  const AddOperation({super.key});
+  // ignore: prefer_typing_uninitialized_variables
+  final TransactionsService transactionsService;
+  const AddOperation({super.key, required this.transactionsService});
 
   @override
   State<AddOperation> createState() => _AddOperationState();
 }
 
 class _AddOperationState extends State<AddOperation> {
-  bool? selectedType;
+  bool selectedType = true;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controllerNameBudgets = TextEditingController();
@@ -38,6 +41,9 @@ class _AddOperationState extends State<AddOperation> {
 
   void _formmValidator() {
     _formKey.currentState?.validate();
+    widget.transactionsService.addTransactions(_controllerNameBudgets.text,
+        int.parse(_controllerSum.text), selectedType);
+    Navigator.pop(context);
   }
 
   @override
@@ -144,7 +150,7 @@ class _AddOperationState extends State<AddOperation> {
                               children: [
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: (selectedType ?? false)
+                                    backgroundColor: (selectedType)
                                         ? Colors.red
                                         : const Color.fromARGB(
                                             255, 147, 147, 147),
@@ -162,7 +168,7 @@ class _AddOperationState extends State<AddOperation> {
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: (selectedType ?? true)
+                                    backgroundColor: (selectedType)
                                         ? const Color.fromARGB(
                                             255, 147, 147, 147)
                                         : const Color.fromARGB(255, 0, 208, 49),

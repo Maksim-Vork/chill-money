@@ -59,8 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             backgroundColor: Color.fromARGB(255, 67, 255, 111),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddOperation()));
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddOperation(
+                              transactionsService: transactionsService)))
+                  .then((context) {
+                setState(() {});
+              });
             },
             child: Icon(Icons.add),
           ),
@@ -165,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              '700', // Пременная общей суммы
+                              transactionsService.allsavings
+                                  .toString(), // Пременная общей суммы
                               style: TextStyle(
                                   color: Color.fromARGB(255, 67, 255, 111),
                                   fontSize: 38,
@@ -408,8 +415,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : transactionsService.transactionsList.length,
                           itemBuilder: (context, index) {
                             return TransactionWidget(
-                              transaction:
-                                  transactionsService.transactionsList[index],
+                              transaction: transactionsService
+                                  .transactionsListReversed[index],
                             );
                           }),
                     ),
@@ -450,7 +457,7 @@ class TransactionWidget extends StatelessWidget {
           Text(
             '${transaction.sum}',
             style: TextStyle(
-              color: transaction.transaction ? Colors.green : Colors.red,
+              color: transaction.transaction ? Colors.red : Colors.green,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
