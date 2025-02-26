@@ -41,7 +41,7 @@ class _AddOperationState extends State<AddOperation> {
 
   void _formmValidator() {
     _formKey.currentState?.validate();
-    widget.transactionsService.addTransactions(_controllerNameBudgets.text,
+    widget.transactionsService.addTransaction(_controllerNameBudgets.text,
         int.parse(_controllerSum.text), selectedType);
     Navigator.pop(context);
   }

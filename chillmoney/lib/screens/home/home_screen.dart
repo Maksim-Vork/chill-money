@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TransactionsService transactionsService = TransactionsService();
   final PageController _pageController = PageController();
-  int _currentPage = 1;
+  int _currentPage = 0;
   void _onPageChanged(int index) {
     setState(() {
       _currentPage = index;
@@ -171,8 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              transactionsService.allsavings
-                                  .toString(), // Пременная общей суммы
+                              transactionsService.allsavings.toString(),
                               style: TextStyle(
                                   color: Color.fromARGB(255, 67, 255, 111),
                                   fontSize: 38,
@@ -248,10 +247,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 10),
-                                          child: CustomPainterSpendLast(),
+                                          child: CustomPainterSpendLast(
+                                              transactionsService:
+                                                  transactionsService),
                                         ),
                                         Text(
-                                          '1000',
+                                          transactionsService.icomeLastMonth
+                                              .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 255, 111, 67),
@@ -274,9 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10),
-                                            child: CustomPainterEerdedLast()),
+                                            child: CustomPainterEerdedLast(
+                                                transactionsService:
+                                                    transactionsService)),
                                         Text(
-                                          '4000',
+                                          transactionsService.spendingLastMonth
+                                              .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 67, 255, 111),
@@ -303,9 +308,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10),
-                                            child: CustomPainterSpend()),
+                                            child: CustomPainterSpend(
+                                              transactionsService:
+                                                  transactionsService,
+                                            )),
                                         Text(
-                                          '2000',
+                                          transactionsService
+                                              .spendingCurrentMonth
+                                              .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 255, 111, 67),
@@ -328,10 +338,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 10),
-                                          child: CustomPainterEerded(),
+                                          child: CustomPainterEerded(
+                                            transactionsService:
+                                                transactionsService,
+                                          ),
                                         ),
                                         Text(
-                                          '8000',
+                                          transactionsService.icomeCurrentMonth
+                                              .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
                                                   255, 67, 255, 111),
@@ -406,19 +420,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       vertical: 14,
                     ),
                     child: SizedBox(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount:
-                              transactionsService.transactionsList.length > 5
+                      // ignore: unnecessary_null_comparison
+                      child: transactionsService.transactionsList.isEmpty
+                          ? Center(
+                              child: Text(
+                              'Список пуст',
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 187, 187, 187),
+                              ),
+                            ))
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: transactionsService
+                                          .transactionsList.length >
+                                      5
                                   ? 5
                                   : transactionsService.transactionsList.length,
-                          itemBuilder: (context, index) {
-                            return TransactionWidget(
-                              transaction: transactionsService
-                                  .transactionsListReversed[index],
-                            );
-                          }),
+                              itemBuilder: (context, index) {
+                                return TransactionWidget(
+                                  transaction: transactionsService
+                                      .transactionsListReversed[index],
+                                );
+                              }),
                     ),
                   ),
                 )

@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
 class CustomPainterSpendLast extends StatefulWidget {
-  const CustomPainterSpendLast({super.key});
+  final TransactionsService transactionsService;
+  const CustomPainterSpendLast({super.key, required this.transactionsService});
 
   @override
   State<CustomPainterSpendLast> createState() => _CustomPainterSpendLastState();
@@ -16,18 +18,19 @@ class _CustomPainterSpendLastState extends State<CustomPainterSpendLast> {
       height: 80,
       width: 80,
       child: CustomPaint(
-        painter: SpendPainter(),
+        painter:
+            SpendPainter(spend: widget.transactionsService.spendingLastMonth),
       ),
     );
   }
 }
 
 class SpendPainter extends CustomPainter {
-  final spend = 1000;
-  final maxSpend = 7000;
+  final int spend;
+  final int maxSpend = 5000;
   late final double procent;
 
-  SpendPainter() {
+  SpendPainter({required this.spend}) {
     if (spend <= maxSpend) {
       procent = spend / maxSpend;
     } else {
@@ -58,7 +61,8 @@ class SpendPainter extends CustomPainter {
 }
 
 class CustomPainterEerdedLast extends StatefulWidget {
-  const CustomPainterEerdedLast({super.key});
+  final TransactionsService transactionsService;
+  const CustomPainterEerdedLast({super.key, required this.transactionsService});
 
   @override
   State<CustomPainterEerdedLast> createState() =>
@@ -72,18 +76,19 @@ class _CustomPainterEerdedLastState extends State<CustomPainterEerdedLast> {
       height: 80,
       width: 80,
       child: CustomPaint(
-        painter: EarnedPainter(),
+        painter:
+            EarnedPainter(earned: widget.transactionsService.icomeLastMonth),
       ),
     );
   }
 }
 
 class EarnedPainter extends CustomPainter {
-  final earned = 2000;
-  final maxEarned = 7000;
+  final int earned;
+  final int maxEarned = 5000;
   late final double procent;
 
-  EarnedPainter() {
+  EarnedPainter({required this.earned}) {
     if (earned <= maxEarned) {
       procent = earned / maxEarned;
     } else {
