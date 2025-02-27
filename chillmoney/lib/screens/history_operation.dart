@@ -158,7 +158,7 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                           fontWeight: FontWeight.w300,
                                           color: const Color.fromARGB(
                                               255, 0, 208, 49)),
-                                    ), // Переменная доходов
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -177,13 +177,15 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                               255, 162, 162, 162)),
                                     ),
                                     Text(
-                                      '1000',
+                                      widget.transactionsService
+                                          .spendingCurrentMonth
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300,
                                           color: const Color.fromARGB(
                                               255, 208, 0, 0)),
-                                    ), // Переменная расходов
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -202,7 +204,8 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      '700', // Переменная общей суммы
+                                      widget.transactionsService.allsavings
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300,
@@ -233,6 +236,28 @@ class _HistoryOperationState extends State<HistoryOperation> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 22,
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: widget
+                              .transactionsService.currentMonthList.length,
+                          itemBuilder: (context, index) {
+                            return widget.transactionsService.currentMonthList
+                                    .isEmpty
+                                ? Center(
+                                    child: Text(
+                                      'Список пуст',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )
+                                : TransactionDay(
+                                    mapEntryDay: widget.transactionsService
+                                        .currentMonthList[index]);
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -267,13 +292,14 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                               255, 162, 162, 162)),
                                     ),
                                     Text(
-                                      '1500',
+                                      widget.transactionsService.icomeLastMonth
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300,
                                           color: const Color.fromARGB(
                                               255, 0, 208, 49)),
-                                    ), // Переменная доходов
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -292,13 +318,15 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                               255, 162, 162, 162)),
                                     ),
                                     Text(
-                                      '1000',
+                                      widget
+                                          .transactionsService.spendingLastMonth
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300,
                                           color: const Color.fromARGB(
                                               255, 208, 0, 0)),
-                                    ), // Переменная расходов
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -317,7 +345,8 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      '700', // Переменная общей суммы
+                                      widget.transactionsService.allSavingsLast
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300,
@@ -355,10 +384,122 @@ class _HistoryOperationState extends State<HistoryOperation> {
               ),
             ),
             SizedBox(
-              height: 22,
+              height: 11,
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TransactionDay extends StatefulWidget {
+  final MapEntry<DateTime, List<Transactions>> mapEntryDay;
+  const TransactionDay({super.key, required this.mapEntryDay});
+
+  @override
+  State<TransactionDay> createState() => _TransactionDayState();
+}
+
+class _TransactionDayState extends State<TransactionDay> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 11),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 67, 67, 67),
+            borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 11),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.mapEntryDay.key.day.toString(),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    widget.mapEntryDay.key.year.toString(),
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 62, 247, 71),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300),
+                  ),
+                ],
+              ),
+              Container(
+                width: double.infinity,
+                height: 1,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 102, 102, 102)),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.mapEntryDay.value.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return TransactionInDay(
+                        transaction: widget.mapEntryDay.value[index]);
+                  })
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TransactionInDay extends StatelessWidget {
+  final Transactions transaction;
+  const TransactionInDay({super.key, required this.transaction});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 34,
+                width: 34,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+              SizedBox(
+                width: 17,
+              ),
+              Text(
+                transaction.name,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w200),
+              ),
+            ],
+          ),
+          Text(
+            transaction.sum.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          )
+        ],
       ),
     );
   }

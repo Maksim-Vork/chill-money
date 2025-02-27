@@ -20,6 +20,7 @@ class TransactionsService {
 
   int icomeLastMonth = 0;
   int spendingLastMonth = 0;
+  int allSavingsLast = 0;
 
   int get icomeCurrentMonth => _icomeCurrentMonth;
   int get spendingCurrentMonth => _spendingCurrentMonth;
@@ -27,6 +28,13 @@ class TransactionsService {
   final Map<DateTime, List<Transactions>> _currentMonth = {};
   final Map<DateTime, List<Transactions>> _lastMonth = {};
 
+  List<MapEntry<DateTime, List<Transactions>>> _currentMonthList = [];
+
+  TransactionsService() {
+    _currentMonthList = _currentMonth.entries.toList();
+  }
+  List<MapEntry<DateTime, List<Transactions>>> get currentMonthList =>
+      _currentMonthList;
   int get allsavings => _allSavings;
 
   List<Transactions> get transactionsListReversed =>
@@ -50,6 +58,7 @@ class TransactionsService {
 
     if (transactionMonth == month) {
       _addToMap(_currentMonth, newTransaction);
+      _currentMonthList = _currentMonth.entries.toList();
     } else if (transactionMonth == month - 1) {
       _addToMap(_lastMonth, newTransaction);
     }
@@ -70,7 +79,4 @@ class TransactionsService {
     }
     map[dateKey]!.add(transaction);
   }
-
-  Map<DateTime, List<Transactions>> get groupedCurrentMonth => _currentMonth;
-  Map<DateTime, List<Transactions>> get groupedLastMonth => _lastMonth;
 }
