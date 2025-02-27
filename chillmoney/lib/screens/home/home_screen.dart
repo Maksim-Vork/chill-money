@@ -5,14 +5,14 @@ import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final TransactionsService transactionsService;
+  const HomeScreen({super.key, required this.transactionsService});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TransactionsService transactionsService = TransactionsService();
   final PageController _pageController = PageController();
   int _currentPage = 0;
   void _onPageChanged(int index) {
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AddOperation(
-                              transactionsService: transactionsService)))
+                              transactionsService: widget.transactionsService)))
                   .then((context) {
                 setState(() {});
               });
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              transactionsService.allsavings.toString(),
+                              widget.transactionsService.allsavings.toString(),
                               style: TextStyle(
                                   color: Color.fromARGB(255, 67, 255, 111),
                                   fontSize: 38,
@@ -249,10 +249,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               vertical: 10),
                                           child: CustomPainterSpendLast(
                                               transactionsService:
-                                                  transactionsService),
+                                                  widget.transactionsService),
                                         ),
                                         Text(
-                                          transactionsService.icomeLastMonth
+                                          widget.transactionsService
+                                              .icomeLastMonth
                                               .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
@@ -277,10 +278,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: CustomPainterEerdedLast(
-                                                transactionsService:
-                                                    transactionsService)),
+                                                transactionsService: widget
+                                                    .transactionsService)),
                                         Text(
-                                          transactionsService.spendingLastMonth
+                                          widget.transactionsService
+                                              .spendingLastMonth
                                               .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
@@ -310,10 +312,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 vertical: 10),
                                             child: CustomPainterSpend(
                                               transactionsService:
-                                                  transactionsService,
+                                                  widget.transactionsService,
                                             )),
                                         Text(
-                                          transactionsService
+                                          widget.transactionsService
                                               .spendingCurrentMonth
                                               .toString(),
                                           style: TextStyle(
@@ -340,11 +342,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                               vertical: 10),
                                           child: CustomPainterEerded(
                                             transactionsService:
-                                                transactionsService,
+                                                widget.transactionsService,
                                           ),
                                         ),
                                         Text(
-                                          transactionsService.icomeCurrentMonth
+                                          widget.transactionsService
+                                              .icomeCurrentMonth
                                               .toString(),
                                           style: TextStyle(
                                               color: Color.fromARGB(
@@ -421,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: SizedBox(
                       // ignore: unnecessary_null_comparison
-                      child: transactionsService.transactionsList.isEmpty
+                      child: widget.transactionsService.transactionsList.isEmpty
                           ? Center(
                               child: Text(
                               'Список пуст',
@@ -432,14 +435,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: transactionsService
+                              itemCount: widget.transactionsService
                                           .transactionsList.length >
                                       5
                                   ? 5
-                                  : transactionsService.transactionsList.length,
+                                  : widget.transactionsService.transactionsList
+                                      .length,
                               itemBuilder: (context, index) {
                                 return TransactionWidget(
-                                  transaction: transactionsService
+                                  transaction: widget.transactionsService
                                       .transactionsListReversed[index],
                                 );
                               }),

@@ -1,7 +1,9 @@
+import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
 class HistoryOperation extends StatefulWidget {
-  const HistoryOperation({super.key});
+  final TransactionsService transactionsService;
+  const HistoryOperation({super.key, required this.transactionsService});
 
   @override
   State<HistoryOperation> createState() => _HistoryOperationState();
@@ -148,7 +150,9 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                               255, 162, 162, 162)),
                                     ),
                                     Text(
-                                      '1500',
+                                      widget
+                                          .transactionsService.icomeCurrentMonth
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300,

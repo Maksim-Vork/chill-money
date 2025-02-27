@@ -2,6 +2,7 @@ import 'package:chillmoney/screens/current_budgets/current_budgets.dart';
 import 'package:chillmoney/screens/history_operation.dart';
 import 'package:chillmoney/screens/home/home_screen.dart';
 import 'package:chillmoney/screens/profile/profile_screen.dart';
+import 'package:chillmoney/transactions.dart';
 import 'package:flutter/material.dart';
 
 class MainWrapper extends StatefulWidget {
@@ -14,12 +15,21 @@ class MainWrapper extends StatefulWidget {
 class _MainWrapperState extends State<MainWrapper> {
   int _selectedIndex = 0;
 
-  final List<Widget> screens = [
-    HomeScreen(),
-    HistoryOperation(),
-    CurrentBudgets(),
-    ProfileScreen(),
-  ];
+  final TransactionsService transactionsService = TransactionsService();
+
+  late final List<Widget> screens;
+
+  @override
+  void initState() {
+    super.initState();
+
+    screens = [
+      HomeScreen(transactionsService: transactionsService),
+      HistoryOperation(transactionsService: transactionsService),
+      CurrentBudgets(),
+      ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     if (index >= 0 && index < screens.length) {
