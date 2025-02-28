@@ -1,5 +1,5 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:chillmoney/welcom/welcome_screen.dart';
+import 'package:chillmoney/screens/welcom/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

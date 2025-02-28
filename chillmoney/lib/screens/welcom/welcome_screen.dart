@@ -1,6 +1,6 @@
-import 'package:chillmoney/login/login.dart';
-import 'package:chillmoney/register/register.dart';
-import 'package:chillmoney/welcom/advertising_post.dart';
+import 'package:chillmoney/screens/login/login.dart';
+import 'package:chillmoney/screens/register/register.dart';
+import 'package:chillmoney/screens/welcom/advertising_post.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {

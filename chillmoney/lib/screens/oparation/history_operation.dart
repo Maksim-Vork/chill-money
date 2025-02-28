@@ -1,4 +1,4 @@
-import 'package:chillmoney/transactions.dart';
+import 'package:chillmoney/data/transactions.dart';
 import 'package:flutter/material.dart';
 
 class HistoryOperation extends StatefulWidget {
@@ -204,7 +204,7 @@ class _HistoryOperationState extends State<HistoryOperation> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      widget.transactionsService.allsavings
+                                      widget.transactionsService.allSavings
                                           .toString(),
                                       style: TextStyle(
                                           fontSize: 16,
@@ -239,25 +239,24 @@ class _HistoryOperationState extends State<HistoryOperation> {
                         SizedBox(
                           height: 22,
                         ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: widget
-                              .transactionsService.currentMonthList.length,
-                          itemBuilder: (context, index) {
-                            return widget.transactionsService.currentMonthList
-                                    .isEmpty
-                                ? Center(
-                                    child: Text(
-                                      'Список пуст',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )
-                                : TransactionDay(
-                                    mapEntryDay: widget.transactionsService
-                                        .currentMonthList[index]);
-                          },
-                        )
+                        widget.transactionsService.currentMonthList.isEmpty
+                            ? Text(
+                                'Список пуст',
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 134, 134, 134)),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: widget.transactionsService
+                                    .currentMonthList.length,
+                                itemBuilder: (context, index) {
+                                  return TransactionDay(
+                                      mapEntryDay: widget.transactionsService
+                                          .currentMonthList[index]);
+                                },
+                              )
                       ],
                     ),
                   ),

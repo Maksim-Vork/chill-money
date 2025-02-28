@@ -1,4 +1,4 @@
-import 'package:chillmoney/transactions.dart';
+import 'package:chillmoney/data/transactions.dart';
 import 'package:flutter/material.dart';
 
 class AddOperation extends StatefulWidget {

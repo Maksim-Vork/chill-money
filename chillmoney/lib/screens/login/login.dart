@@ -1,34 +1,25 @@
-import 'package:chillmoney/login/login.dart';
-import 'package:chillmoney/welcom/welcome_screen.dart';
+import 'package:chillmoney/screens/home/main_wrapper.dart';
+import 'package:chillmoney/screens/register/register.dart';
+
+import 'package:chillmoney/screens/welcom/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreen();
+  State<LoginScreen> createState() => _LoginScreen();
 }
 
-class _RegisterScreen extends State<RegisterScreen> {
-  final _userNameController = TextEditingController();
+class _LoginScreen extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-
-  String? _validatorUserName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Некоректное имя';
-    } else if (value.length > 15) {
-      return 'Слишком длинное';
-    } else {
-      return null;
-    }
-  }
+  final _fromKey = GlobalKey<FormState>();
 
   String? _validatorEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Email не коректный';
+      return "Введите email";
     } else if (!RegExp(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
         .hasMatch(value)) {
       return "Введите корректный e-mail";
@@ -39,18 +30,16 @@ class _RegisterScreen extends State<RegisterScreen> {
 
   String? _validatorPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Некоректный пороль';
-    } else if (value.length < 6) {
-      return 'Пороль меньше 6 символов';
+      return 'Введите пороль';
     } else {
       return null;
     }
   }
 
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
+    if (_fromKey.currentState!.validate()) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+          context, MaterialPageRoute(builder: (context) => MainWrapper()));
     }
   }
 
@@ -97,7 +86,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'Регистрация',
+                              'Вход',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25,
@@ -107,20 +96,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                               height: 65,
                             ),
                             Form(
-                                key: _formKey,
+                                key: _fromKey,
                                 child: Column(
                                   children: [
-                                    TextFormField(
-                                      validator: _validatorUserName,
-                                      controller: _userNameController,
-                                      cursorColor: Colors.white,
-                                      style: TextStyle(color: Colors.white),
-                                      decoration: InputDecoration(
-                                          hintText: 'Username',
-                                          hintStyle: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  150, 150, 150, 1))),
-                                    ),
                                     TextFormField(
                                       validator: _validatorEmail,
                                       controller: _emailController,
@@ -163,9 +141,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 14, vertical: 15),
+                                    horizontal: 90, vertical: 15),
                                 child: Text(
-                                  'Зарегистрироваться',
+                                  'Войти',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),
@@ -198,9 +176,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(50),
                                       ),
-                                      child: Image.asset(
-                                        "assets/images/GI.png",
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -216,9 +191,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(50),
                                       ),
-                                      child: Image.asset(
-                                        "assets/images/APL.png",
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -233,9 +205,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: Image.asset(
-                                        "assets/images/WK.png",
                                       ),
                                     ),
                                   ),
@@ -257,10 +226,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
+                                      builder: (context) => RegisterScreen()));
                             },
                             child: Text(
-                              'Войти',
+                              'Зарегистрироваться',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 0, 208, 49),
                                   fontSize: 17,

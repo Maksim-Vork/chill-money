@@ -1,24 +1,34 @@
-import 'package:chillmoney/screens/home/main_wrapper.dart';
-import 'package:chillmoney/register/register.dart';
-import 'package:chillmoney/welcom/welcome_screen.dart';
+import 'package:chillmoney/screens/login/login.dart';
+import 'package:chillmoney/screens/welcom/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreen();
+  State<RegisterScreen> createState() => _RegisterScreen();
 }
 
-class _LoginScreen extends State<LoginScreen> {
+class _RegisterScreen extends State<RegisterScreen> {
+  final _userNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final _fromKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
+  String? _validatorUserName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Некоректное имя';
+    } else if (value.length > 15) {
+      return 'Слишком длинное';
+    } else {
+      return null;
+    }
+  }
 
   String? _validatorEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return "Введите email";
+      return 'Email не коректный';
     } else if (!RegExp(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
         .hasMatch(value)) {
       return "Введите корректный e-mail";
@@ -29,16 +39,18 @@ class _LoginScreen extends State<LoginScreen> {
 
   String? _validatorPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Введите пороль';
+      return 'Некоректный пороль';
+    } else if (value.length < 6) {
+      return 'Пороль меньше 6 символов';
     } else {
       return null;
     }
   }
 
   void _submitForm() {
-    if (_fromKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MainWrapper()));
+          context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
     }
   }
 
@@ -85,7 +97,7 @@ class _LoginScreen extends State<LoginScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'Вход',
+                              'Регистрация',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25,
@@ -95,9 +107,20 @@ class _LoginScreen extends State<LoginScreen> {
                               height: 65,
                             ),
                             Form(
-                                key: _fromKey,
+                                key: _formKey,
                                 child: Column(
                                   children: [
+                                    TextFormField(
+                                      validator: _validatorUserName,
+                                      controller: _userNameController,
+                                      cursorColor: Colors.white,
+                                      style: TextStyle(color: Colors.white),
+                                      decoration: InputDecoration(
+                                          hintText: 'Username',
+                                          hintStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  150, 150, 150, 1))),
+                                    ),
                                     TextFormField(
                                       validator: _validatorEmail,
                                       controller: _emailController,
@@ -140,9 +163,9 @@ class _LoginScreen extends State<LoginScreen> {
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 90, vertical: 15),
+                                    horizontal: 14, vertical: 15),
                                 child: Text(
-                                  'Войти',
+                                  'Зарегистрироваться',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),
@@ -175,20 +198,8 @@ class _LoginScreen extends State<LoginScreen> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(50),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5),
-                                    child: Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(50),
+                                      child: Image.asset(
+                                        "assets/images/GI.png",
                                       ),
                                     ),
                                   ),
@@ -204,6 +215,27 @@ class _LoginScreen extends State<LoginScreen> {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Image.asset(
+                                        "assets/images/APL.png",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Image.asset(
+                                        "assets/images/WK.png",
                                       ),
                                     ),
                                   ),
@@ -225,10 +257,10 @@ class _LoginScreen extends State<LoginScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => RegisterScreen()));
+                                      builder: (context) => LoginScreen()));
                             },
                             child: Text(
-                              'Зарегистрироваться',
+                              'Войти',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 0, 208, 49),
                                   fontSize: 17,

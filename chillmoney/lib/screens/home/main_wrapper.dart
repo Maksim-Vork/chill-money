@@ -1,8 +1,9 @@
 import 'package:chillmoney/screens/current_budgets/current_budgets.dart';
-import 'package:chillmoney/screens/history_operation.dart';
+
 import 'package:chillmoney/screens/home/home_screen.dart';
+import 'package:chillmoney/screens/oparation/history_operation.dart';
 import 'package:chillmoney/screens/profile/profile_screen.dart';
-import 'package:chillmoney/transactions.dart';
+import 'package:chillmoney/data/transactions.dart';
 import 'package:flutter/material.dart';
 
 class MainWrapper extends StatefulWidget {

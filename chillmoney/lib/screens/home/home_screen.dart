@@ -1,7 +1,7 @@
-import 'package:chillmoney/screens/add_operation.dart';
+import 'package:chillmoney/screens/oparation/add_operation.dart';
 import 'package:chillmoney/screens/home/painter/painter.dart';
 import 'package:chillmoney/screens/home/painter/painterLastMonth.dart';
-import 'package:chillmoney/transactions.dart';
+import 'package:chillmoney/data/transactions.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              widget.transactionsService.allsavings.toString(),
+                              widget.transactionsService.allSavings.toString(),
                               style: TextStyle(
                                   color: Color.fromARGB(255, 67, 255, 111),
                                   fontSize: 38,
