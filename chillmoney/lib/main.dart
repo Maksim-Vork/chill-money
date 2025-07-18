@@ -1,14 +1,14 @@
-import 'package:device_preview/device_preview.dart';
+import 'package:chillmoney/firebase_options.dart';
 import 'package:chillmoney/screens/welcom/welcome_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context) => MyApp(),
-    ),
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // ignore: deprecated_member_use
       useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
       home: WelcomeScreen(),
     );
   }
