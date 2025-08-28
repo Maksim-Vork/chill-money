@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "486636908081",
+    "project_id": "chill-money-47bcc",
+    "storage_bucket": "chill-money-47bcc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486636908081:android:33c8873aba972bed456f10",
+        "android_client_info": {
+          "package_name": "com.example.chill_money"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486636908081-9hv3qsu03ih33v99rnc2tq4vfglo407r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chill_money",
+            "certificate_hash": "dedd9a1d1105d66ed72b5c4f04f6277a99d74f56"
+          }
+        },
+        {
+          "client_id": "486636908081-8cgfgka6sgsnqts8r0si5ebda8f820mu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfX-uVuMwR_WXBgous_8jRqRy_aVLAOgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486636908081-8cgfgka6sgsnqts8r0si5ebda8f820mu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
