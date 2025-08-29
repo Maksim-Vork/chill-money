@@ -9,6 +9,8 @@ import 'package:chill_money/features/budgets/presentation/bloc/budget_bloc.dart'
 import 'package:chill_money/features/budgets/presentation/bloc/budget_event.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_event.dart';
+import 'package:chill_money/features/transactions/presentation/bloc/transact_bloc.dart';
+import 'package:chill_money/features/transactions/presentation/bloc/transact_event.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginWithGoogleUsecase loginWithGoogleUsecase;
   final BudgetBloc budgetBloc;
   final DashboardBloc dashboardBloc;
+  final TransactBloc transactBloc;
   AuthBloc(
     this.checkAuthUserUsecase,
     this.loginWithEmailUsecase,
@@ -28,6 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this.loginWithGoogleUsecase,
     this.budgetBloc,
     this.dashboardBloc,
+    this.transactBloc,
   ) : super(InititalAuth()) {
     on<ChechAuthEvent>(_onChech);
     on<LoginEvent>(_onLogin);
@@ -44,6 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(LoadedAuth());
         budgetBloc.add(GetAllBudgetEvent());
         dashboardBloc.add(GetSavingsEvent());
+        transactBloc.add(GetTransactionsEvent());
       } else {
         emit(InititalAuth());
       }
@@ -58,6 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await loginWithEmailUsecase(event.email, event.password);
       budgetBloc.add(GetAllBudgetEvent());
       dashboardBloc.add(GetSavingsEvent());
+      transactBloc.add(GetTransactionsEvent());
       emit(LoadedAuth());
     } catch (e) {
       emit(ErrorAuth(error: e.toString()));
@@ -71,6 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await registerUsecase(event.email, event.password);
       budgetBloc.add(GetAllBudgetEvent());
       dashboardBloc.add(GetSavingsEvent());
+      transactBloc.add(GetTransactionsEvent());
       emit(LoadedAuth());
     } catch (e) {
       emit(ErrorAuth(error: e.toString()));

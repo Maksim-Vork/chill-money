@@ -9,3 +9,5 @@ class AddTransactionEvent extends TransactEvent {
 }
 
 class GetTransactionsEvent extends TransactEvent {}
+
+class ResetTransactionsEvent extends TransactEvent {}

@@ -18,8 +18,7 @@ class RemoteTransactionDatasource {
           .collection('users')
           .doc(userId)
           .collection('transactons')
-          .doc()
-          .set(transactModel.toMap());
+          .add(transactModel.toMap());
     } catch (e) {
       throw Exception(e);
     }

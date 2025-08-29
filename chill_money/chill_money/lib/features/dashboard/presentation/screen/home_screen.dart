@@ -3,6 +3,8 @@ import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_bloc.
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:chill_money/features/dashboard/presentation/screen/widget/painter/painter.dart';
 import 'package:chill_money/features/dashboard/presentation/screen/widget/painter/painterLastMonth.dart';
+import 'package:chill_money/features/transactions/presentation/bloc/transact_bloc.dart';
+import 'package:chill_money/features/transactions/presentation/bloc/transact_state.dart';
 import 'package:chill_money/features/transactions/presentation/screens/create_transaction/add_operation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -193,244 +195,286 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(height: 24),
-                    Row(
-                      children: [
-                        Text(
-                          'Статистика',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 241,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 67, 67, 67),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 20,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 140,
-                              child: PageView(
-                                onPageChanged: _onPageChanged,
-                                controller: _pageController,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Потрачено',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 10,
-                                              ),
-                                              child: CustomPainterSpendLast(
-                                                transactionsService:
-                                                    widget.transactionsService,
-                                              ),
-                                            ),
-                                            Text(
-                                              widget
-                                                  .transactionsService
-                                                  .icomeLastMonth
-                                                  .toString(),
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                  255,
-                                                  255,
-                                                  111,
-                                                  67,
-                                                ),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Заработано',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 10,
-                                              ),
-                                              child: CustomPainterEerdedLast(
-                                                transactionsService:
-                                                    widget.transactionsService,
-                                              ),
-                                            ),
-                                            Text(
-                                              widget
-                                                  .transactionsService
-                                                  .spendingLastMonth
-                                                  .toString(),
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                  255,
-                                                  67,
-                                                  255,
-                                                  111,
-                                                ),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Потрачено',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 10,
-                                              ),
-                                              child: CustomPainterSpend(
-                                                transactionsService:
-                                                    widget.transactionsService,
-                                              ),
-                                            ),
-                                            Text(
-                                              widget
-                                                  .transactionsService
-                                                  .spendingCurrentMonth
-                                                  .toString(),
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                  255,
-                                                  255,
-                                                  111,
-                                                  67,
-                                                ),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Заработано',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 10,
-                                              ),
-                                              child: CustomPainterEerded(
-                                                transactionsService:
-                                                    widget.transactionsService,
-                                              ),
-                                            ),
-                                            Text(
-                                              widget
-                                                  .transactionsService
-                                                  .icomeCurrentMonth
-                                                  .toString(),
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                  255,
-                                                  67,
-                                                  255,
-                                                  111,
-                                                ),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                    SizedBox(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Статистика',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _onPageChandedLeft();
-                                  },
-                                  icon: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          BlocBuilder<TransactBloc, TransactState>(
+                            builder: (context, state) {
+                              if (state is InitialTransactState ||
+                                  state is LoadingTransactState) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (state is LoadedTransactState) {
+                                return Container(
+                                  height: 241,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 67, 67, 67),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                ),
-                                Text(
-                                  _currentPage == 1
-                                      ? 'В этом месяце'
-                                      : 'В прошлом месяце',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 18,
+                                      vertical: 20,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          height: 140,
+                                          child: PageView(
+                                            onPageChanged: _onPageChanged,
+                                            controller: _pageController,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          'Потрачено',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                vertical: 10,
+                                                              ),
+                                                          child: CustomPainterSpendLast(
+                                                            transactionsService:
+                                                                widget
+                                                                    .transactionsService,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          state.stats.pastExpens
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  255,
+                                                                  111,
+                                                                  67,
+                                                                ),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          'Заработано',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                vertical: 10,
+                                                              ),
+                                                          child: CustomPainterEerdedLast(
+                                                            transactionsService:
+                                                                widget
+                                                                    .transactionsService,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          state.stats.pastIcome
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  67,
+                                                                  255,
+                                                                  111,
+                                                                ),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          'Потрачено',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                vertical: 10,
+                                                              ),
+                                                          child: CustomPainterSpend(
+                                                            transactionsService:
+                                                                widget
+                                                                    .transactionsService,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          state
+                                                              .stats
+                                                              .currentExpens
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  255,
+                                                                  111,
+                                                                  67,
+                                                                ),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          'Заработано',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                vertical: 10,
+                                                              ),
+                                                          child: CustomPainterEerded(
+                                                            transactionsService:
+                                                                widget
+                                                                    .transactionsService,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          state
+                                                              .stats
+                                                              .currentIcome
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  67,
+                                                                  255,
+                                                                  111,
+                                                                ),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                _onPageChandedLeft();
+                                              },
+                                              icon: Icon(
+                                                Icons.arrow_back_ios,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Text(
+                                              _currentPage == 1
+                                                  ? 'В этом месяце'
+                                                  : 'В прошлом месяце',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                _onPageChandedRight();
+                                              },
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    _onPageChandedRight();
-                                  },
-                                  icon: Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                );
+                              } else if (state is ErrorTransactState) {
+                                return Center(child: Text(state.error));
+                              } else {
+                                return Center(
+                                  child: Text('Перезапустите приложение'),
+                                );
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
+
                     SizedBox(height: 24),
                     Row(
                       children: [

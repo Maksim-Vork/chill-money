@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chill_money/features/budgets/presentation/bloc/budget_bloc.dart';
 import 'package:chill_money/features/budgets/presentation/bloc/budget_event.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_bloc.dart';
@@ -26,6 +28,7 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
   ) : super(InitialTransactState()) {
     on<GetTransactionsEvent>(_onGetTransacts);
     on<AddTransactionEvent>(_onAddTransact);
+    on<ResetTransactionsEvent>(_obReseTransact);
   }
 
   void _onGetTransacts(
@@ -34,7 +37,8 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
   ) async {
     emit(LoadingTransactState());
     try {
-      final List<Transact> transactions = await getTransactions();
+      final List<Transact> transactions =
+          await getTransactions(); // заменить на получение транзакций но в мапе и в стетйт ложить мапу
       final Stats stats = await getStatsUsecase();
 
       emit(LoadedTransactState(transactions: transactions, stats: stats));
@@ -57,5 +61,12 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
     } catch (e) {
       emit(ErrorTransactState(error: e.toString()));
     }
+  }
+
+  FutureOr<void> _obReseTransact(
+    ResetTransactionsEvent event,
+    Emitter<TransactState> emit,
+  ) {
+    emit(InitialTransactState());
   }
 }

@@ -27,7 +27,7 @@ class AddTransactions {
       dashboardRepository.updateCurrentAmount(
         Savings(amount: currentAmount - sum),
       );
-
+      //логика поиска и вычетания суммы из бюджета
       final List<Budget> budgets = await budgetRepository.getAllBudgets();
       final Budget? budgetByName = budgets.firstWhere(
         (e) => e.name == transaction.name,

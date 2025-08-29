@@ -138,6 +138,7 @@ void main() async {
             loginWithGoogleUsecase,
             context.read<BudgetBloc>(),
             context.read<DashboardBloc>(),
+            context.read<TransactBloc>(),
           )..add(ChechAuthEvent()),
         ),
       ],

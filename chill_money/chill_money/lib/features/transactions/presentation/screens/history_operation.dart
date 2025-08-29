@@ -69,15 +69,6 @@ class _HistoryOperationState extends State<HistoryOperation> {
             ),
           ],
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3),
-            child: IconButton(
-              icon: Icon(Icons.more_vert, color: Colors.white, size: 30),
-              onPressed: () {},
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),

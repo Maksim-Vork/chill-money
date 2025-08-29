@@ -1,4 +1,5 @@
 import 'package:chill_money/features/budgets/domain/entity/budget.dart';
+import 'package:chill_money/features/transactions/domain/entity/stats.dart';
 
 abstract class BudgetState {}
 
