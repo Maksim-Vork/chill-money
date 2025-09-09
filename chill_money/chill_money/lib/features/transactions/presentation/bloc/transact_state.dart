@@ -8,10 +8,15 @@ class InitialTransactState extends TransactState {}
 class LoadingTransactState extends TransactState {}
 
 class LoadedTransactState extends TransactState {
-  final List<Transact> transactions;
+  final List<MapEntry<DateTime, List<Transact>>> transactionsByLastMounth;
+  final List<MapEntry<DateTime, List<Transact>>> transactionsByCurrentMounth;
   final Stats stats;
 
-  LoadedTransactState({required this.transactions, required this.stats});
+  LoadedTransactState({
+    required this.transactionsByLastMounth,
+    required this.transactionsByCurrentMounth,
+    required this.stats,
+  });
 }
 
 class ErrorTransactState extends TransactState {

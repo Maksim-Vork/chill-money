@@ -17,19 +17,18 @@ import 'package:chill_money/features/budgets/domain/usecase/delete_budget.dart';
 import 'package:chill_money/features/budgets/domain/usecase/get_all_budgets.dart';
 import 'package:chill_money/features/budgets/domain/usecase/update_budget.dart';
 import 'package:chill_money/features/budgets/presentation/bloc/budget_bloc.dart';
-import 'package:chill_money/features/budgets/presentation/bloc/budget_event.dart';
 import 'package:chill_money/features/dashboard/data/repository/dashboard_repository_impl.dart';
 import 'package:chill_money/features/dashboard/data/source/remote_dashboard_source.dart';
 import 'package:chill_money/features/dashboard/domain/repository/dashboard_repository.dart';
 import 'package:chill_money/features/dashboard/domain/usecase/get_current_amount.dart';
 import 'package:chill_money/features/dashboard/domain/usecase/update_current_amount.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_bloc.dart';
-import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:chill_money/features/transactions/data/repository/transaction_repository_impl.dart';
 import 'package:chill_money/features/transactions/data/source/remote_transaction_datasource.dart';
 import 'package:chill_money/features/transactions/domain/repository/transaction_repository.dart';
 import 'package:chill_money/features/transactions/domain/usecase/add_transactions.dart';
 import 'package:chill_money/features/transactions/domain/usecase/get_stats_usecase.dart';
+import 'package:chill_money/features/transactions/domain/usecase/get_transact_sort_by_day.dart';
 import 'package:chill_money/features/transactions/domain/usecase/get_transactions.dart';
 import 'package:chill_money/features/transactions/presentation/bloc/transact_bloc.dart';
 import 'package:chill_money/firebase_options.dart';
@@ -59,6 +58,7 @@ void main() async {
   );
 
   final RemoteBudgetDataSource budgetDataSource = RemoteBudgetDataSource();
+
   final BudgetRepository budgetRepository = BudgetRepositoryImpl(
     budgetDataSource: budgetDataSource,
   );
@@ -103,6 +103,9 @@ void main() async {
   final GetStatsUsecase getStatsUsecase = GetStatsUsecase(
     transactionRepository: transactionRepository,
   );
+  final GetTransactSortByMounth getTransactSortByDay = GetTransactSortByMounth(
+    transactionRepository: transactionRepository,
+  );
   runApp(
     MultiBlocProvider(
       providers: [
@@ -127,6 +130,7 @@ void main() async {
             context.read<DashboardBloc>(),
             context.read<BudgetBloc>(),
             getStatsUsecase,
+            getTransactSortByDay,
           ),
         ),
         BlocProvider(

@@ -10,5 +10,4 @@ class GetTransactions {
     return await transactionRepository.getTransact();
   }
 
-  //переписать под получение списка мапов типо дней и в каждом дне список транзакций
 }

@@ -1,4 +1,3 @@
-import 'package:chill_money/data/transactions.dart';
 import 'package:chill_money/features/settings/presentation/screen/main_settings/settigns_screen.dart';
 import 'package:chill_money/features/budgets/presentation/screen/current_budgets.dart';
 import 'package:chill_money/features/dashboard/presentation/screen/home_screen.dart';
@@ -15,8 +14,6 @@ class MainWrapper extends StatefulWidget {
 class _MainWrapperState extends State<MainWrapper> {
   int _selectedIndex = 0;
 
-  final TransactionsService transactionsService = TransactionsService();
-
   late final List<Widget> screens;
 
   @override
@@ -24,10 +21,10 @@ class _MainWrapperState extends State<MainWrapper> {
     super.initState();
 
     screens = [
-      HomeScreen(transactionsService: transactionsService),
-      HistoryOperation(transactionsService: transactionsService),
+      HomeScreen(),
+      HistoryOperation(),
       CurrentBudgets(),
-      ProfileScreen(),
+      // ProfileScreen(),
     ];
   }
 
@@ -60,7 +57,7 @@ class _MainWrapperState extends State<MainWrapper> {
             label: '',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.savings), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+          // BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
         ],
       ),
     );

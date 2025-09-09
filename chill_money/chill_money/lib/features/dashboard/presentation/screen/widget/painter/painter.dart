@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:chill_money/data/transactions.dart';
 import 'package:flutter/material.dart';
 
 class CustomPainterSpend extends StatefulWidget {
-  final TransactionsService transactionsService;
-  const CustomPainterSpend({super.key, required this.transactionsService});
+  final int numberExpens;
+
+  const CustomPainterSpend({super.key, required this.numberExpens});
 
   @override
   State<CustomPainterSpend> createState() => _CustomPainterSpendState();
@@ -17,11 +17,7 @@ class _CustomPainterSpendState extends State<CustomPainterSpend> {
     return SizedBox(
       height: 80,
       width: 80,
-      child: CustomPaint(
-        painter: SpendPainter(
-          spend: widget.transactionsService.spendingCurrentMonth,
-        ),
-      ),
+      child: CustomPaint(painter: SpendPainter(spend: widget.numberExpens)),
     );
   }
 }
@@ -72,8 +68,9 @@ class SpendPainter extends CustomPainter {
 }
 
 class CustomPainterEerded extends StatefulWidget {
-  final TransactionsService transactionsService;
-  const CustomPainterEerded({super.key, required this.transactionsService});
+  final int numberIcome;
+
+  const CustomPainterEerded({super.key, required this.numberIcome});
 
   @override
   State<CustomPainterEerded> createState() => _CustomPainterEerdedState();
@@ -85,11 +82,7 @@ class _CustomPainterEerdedState extends State<CustomPainterEerded> {
     return SizedBox(
       height: 80,
       width: 80,
-      child: CustomPaint(
-        painter: EarnedPainter(
-          earned: widget.transactionsService.icomeCurrentMonth,
-        ),
-      ),
+      child: CustomPaint(painter: EarnedPainter(earned: widget.numberIcome)),
     );
   }
 }

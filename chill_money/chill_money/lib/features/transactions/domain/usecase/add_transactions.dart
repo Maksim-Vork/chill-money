@@ -29,9 +29,9 @@ class AddTransactions {
       );
       //логика поиска и вычетания суммы из бюджета
       final List<Budget> budgets = await budgetRepository.getAllBudgets();
-      final Budget? budgetByName = budgets.firstWhere(
-        (e) => e.name == transaction.name,
-      );
+      final Budget? budgetByName = budgets
+          .where((e) => e.name == transaction.name)
+          .firstOrNull;
 
       if (budgetByName != null) {
         final int currentBalance = budgetByName.remainder - sum;

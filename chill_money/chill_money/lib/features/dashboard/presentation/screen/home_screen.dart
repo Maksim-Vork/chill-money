@@ -1,8 +1,10 @@
-import 'package:chill_money/data/transactions.dart';
+import 'package:chill_money/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:chill_money/features/auth/presentation/bloc/auth_event.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:chill_money/features/dashboard/presentation/screen/widget/painter/painter.dart';
 import 'package:chill_money/features/dashboard/presentation/screen/widget/painter/painterLastMonth.dart';
+import 'package:chill_money/features/transactions/domain/entity/transaction.dart';
 import 'package:chill_money/features/transactions/presentation/bloc/transact_bloc.dart';
 import 'package:chill_money/features/transactions/presentation/bloc/transact_state.dart';
 import 'package:chill_money/features/transactions/presentation/screens/create_transaction/add_operation.dart';
@@ -10,8 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
-  final TransactionsService transactionsService;
-  const HomeScreen({super.key, required this.transactionsService});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -67,9 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddOperation()),
-            ).then((context) {
-              setState(() {});
-            });
+            );
           },
           child: Icon(Icons.add),
         ),
@@ -79,31 +78,35 @@ class _HomeScreenState extends State<HomeScreen> {
         toolbarHeight: 70,
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromARGB(255, 51, 51, 51),
-        title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.savings,
-                    color: Color.fromARGB(255, 0, 208, 49),
-                    size: 35,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.savings,
+                  color: Color.fromARGB(255, 0, 208, 49),
+                  size: 35,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Chill Money',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 67, 255, 111),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(width: 8),
-                  Text(
-                    'Chill Money',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 67, 255, 111),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            IconButton(
+              visualDensity: VisualDensity.compact,
+              onPressed: () {
+                BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
+              },
+              icon: Icon(Icons.logout_outlined, size: 25, color: Colors.white),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
@@ -189,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          'Какой-то текст',
+                          'Рекламный баннер',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -261,9 +264,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 vertical: 10,
                                                               ),
                                                           child: CustomPainterSpendLast(
-                                                            transactionsService:
-                                                                widget
-                                                                    .transactionsService,
+                                                            numberExpens: state
+                                                                .stats
+                                                                .pastExpens
+                                                                .toInt(),
                                                           ),
                                                         ),
                                                         Text(
@@ -302,11 +306,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               EdgeInsets.symmetric(
                                                                 vertical: 10,
                                                               ),
-                                                          child: CustomPainterEerdedLast(
-                                                            transactionsService:
-                                                                widget
-                                                                    .transactionsService,
-                                                          ),
+                                                          child:
+                                                              CustomPainterEerdedLast(
+                                                                numberIcome: state
+                                                                    .stats
+                                                                    .pastIcome
+                                                                    .toInt(),
+                                                              ),
                                                         ),
                                                         Text(
                                                           state.stats.pastIcome
@@ -349,9 +355,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 vertical: 10,
                                                               ),
                                                           child: CustomPainterSpend(
-                                                            transactionsService:
-                                                                widget
-                                                                    .transactionsService,
+                                                            numberExpens: state
+                                                                .stats
+                                                                .currentExpens
+                                                                .toInt(),
                                                           ),
                                                         ),
                                                         Text(
@@ -393,9 +400,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 vertical: 10,
                                                               ),
                                                           child: CustomPainterEerded(
-                                                            transactionsService:
-                                                                widget
-                                                                    .transactionsService,
+                                                            numberIcome: state
+                                                                .stats
+                                                                .currentIcome
+                                                                .toInt(),
                                                           ),
                                                         ),
                                                         Text(
@@ -489,61 +497,73 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 67, 67, 67),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
-                        child: SizedBox(
-                          // ignore: unnecessary_null_comparison
-                          child:
-                              widget
-                                  .transactionsService
-                                  .transactionsList
-                                  .isEmpty
-                              ? Center(
-                                  child: Text(
-                                    'Список пуст',
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(
-                                        255,
-                                        187,
-                                        187,
-                                        187,
+                    BlocBuilder<TransactBloc, TransactState>(
+                      builder: (context, state) {
+                        if (state is LoadingTransactState ||
+                            state is InitialTransactState) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is LoadedTransactState) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 67, 67, 67),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            width: double.infinity,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
+                              child: SizedBox(
+                                // ignore: unnecessary_null_comparison
+                                child: state.transactionsByCurrentMounth.isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          'Список пуст',
+                                          style: TextStyle(
+                                            color: const Color.fromARGB(
+                                              255,
+                                              187,
+                                              187,
+                                              187,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            state
+                                                    .transactionsByCurrentMounth
+                                                    .first
+                                                    .value
+                                                    .length >
+                                                5
+                                            ? 5
+                                            : state
+                                                  .transactionsByCurrentMounth
+                                                  .first
+                                                  .value
+                                                  .length,
+                                        itemBuilder: (context, index) {
+                                          return TransactionWidget(
+                                            transaction: state
+                                                .transactionsByCurrentMounth
+                                                .first
+                                                .value[index],
+                                          );
+                                        },
                                       ),
-                                    ),
-                                  ),
-                                )
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      widget
-                                              .transactionsService
-                                              .transactionsList
-                                              .length >
-                                          5
-                                      ? 5
-                                      : widget
-                                            .transactionsService
-                                            .transactionsList
-                                            .length,
-                                  itemBuilder: (context, index) {
-                                    return TransactionWidget(
-                                      transaction: widget
-                                          .transactionsService
-                                          .transactionsListReversed[index],
-                                    );
-                                  },
-                                ),
-                        ),
-                      ),
+                              ),
+                            ),
+                          );
+                        } else if (state is ErrorTransactState) {
+                          return Center(child: Text(state.error));
+                        } else {
+                          return Center(child: Text('Ошибка'));
+                        }
+                      },
                     ),
                   ],
                 );
@@ -561,8 +581,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class TransactionWidget extends StatelessWidget {
-  final Transactions transaction;
-
+  final Transact transaction;
   const TransactionWidget({super.key, required this.transaction});
 
   @override
@@ -588,7 +607,7 @@ class TransactionWidget extends StatelessWidget {
           Text(
             '${transaction.sum}',
             style: TextStyle(
-              color: transaction.transaction ? Colors.red : Colors.green,
+              color: transaction.isSpend ? Colors.red : Colors.green,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),

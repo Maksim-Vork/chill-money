@@ -1,13 +1,12 @@
-import 'dart:async';
-
 import 'package:chill_money/features/budgets/presentation/bloc/budget_bloc.dart';
 import 'package:chill_money/features/budgets/presentation/bloc/budget_event.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:chill_money/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:chill_money/features/transactions/domain/entity/stats.dart';
-import 'package:chill_money/features/transactions/domain/entity/transaction.dart';
+import 'package:chill_money/features/transactions/domain/entity/transact_sort_by_month.dart';
 import 'package:chill_money/features/transactions/domain/usecase/add_transactions.dart';
 import 'package:chill_money/features/transactions/domain/usecase/get_stats_usecase.dart';
+import 'package:chill_money/features/transactions/domain/usecase/get_transact_sort_by_day.dart';
 import 'package:chill_money/features/transactions/domain/usecase/get_transactions.dart';
 import 'package:chill_money/features/transactions/presentation/bloc/transact_event.dart';
 import 'package:chill_money/features/transactions/presentation/bloc/transact_state.dart';
@@ -18,6 +17,7 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
   final BudgetBloc budgetBloc;
   final AddTransactions addTransactions;
   final GetTransactions getTransactions;
+  final GetTransactSortByMounth getTransactSortByDay;
   final GetStatsUsecase getStatsUsecase;
   TransactBloc(
     this.addTransactions,
@@ -25,10 +25,11 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
     this.dashboardBloc,
     this.budgetBloc,
     this.getStatsUsecase,
+    this.getTransactSortByDay,
   ) : super(InitialTransactState()) {
     on<GetTransactionsEvent>(_onGetTransacts);
     on<AddTransactionEvent>(_onAddTransact);
-    on<ResetTransactionsEvent>(_obReseTransact);
+    on<ResetTransactionsEvent>(_onReseTransact);
   }
 
   void _onGetTransacts(
@@ -37,11 +38,16 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
   ) async {
     emit(LoadingTransactState());
     try {
-      final List<Transact> transactions =
-          await getTransactions(); // заменить на получение транзакций но в мапе и в стетйт ложить мапу
+      final TransactSortByMonth transactions = await getTransactSortByDay();
       final Stats stats = await getStatsUsecase();
 
-      emit(LoadedTransactState(transactions: transactions, stats: stats));
+      emit(
+        LoadedTransactState(
+          transactionsByLastMounth: transactions.transactSortByLastMonth,
+          transactionsByCurrentMounth: transactions.transactSortByCurrentMonth,
+          stats: stats,
+        ),
+      );
     } catch (e) {
       emit(ErrorTransactState(error: e.toString()));
     }
@@ -55,15 +61,21 @@ class TransactBloc extends Bloc<TransactEvent, TransactState> {
       await addTransactions(event.transact);
       dashboardBloc.add(GetSavingsEvent());
       budgetBloc.add(GetAllBudgetEvent());
-      final List<Transact> transactions = await getTransactions();
+      final TransactSortByMonth transactions = await getTransactSortByDay();
       final Stats stats = await getStatsUsecase();
-      emit(LoadedTransactState(transactions: transactions, stats: stats));
+      emit(
+        LoadedTransactState(
+          transactionsByLastMounth: transactions.transactSortByLastMonth,
+          transactionsByCurrentMounth: transactions.transactSortByCurrentMonth,
+          stats: stats,
+        ),
+      );
     } catch (e) {
       emit(ErrorTransactState(error: e.toString()));
     }
   }
 
-  FutureOr<void> _obReseTransact(
+  void _onReseTransact(
     ResetTransactionsEvent event,
     Emitter<TransactState> emit,
   ) {
